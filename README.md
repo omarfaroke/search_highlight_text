@@ -29,7 +29,7 @@ SearchTextInheritedWidget(
 
 ## Example
 
-See full example in [repo](https://github.com/omarfaroke/search_highlight_text/tree/master/example).
+See full example in [repo](https://github.com/omarfaroke/search_highlight_text/tree/main/example).
 
 ```dart
 // search_view.dart
