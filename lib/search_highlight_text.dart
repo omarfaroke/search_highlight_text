@@ -1,7 +1,4 @@
 library search_highlight_text;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/search_highlight_text.dart';
+export 'src/search_text_inherited_widget.dart';
