@@ -113,5 +113,5 @@ class MovieCard extends StatelessWidget {
 ```
 
 <p>
-<img width="300" height="600" src="./example/screenshots/example.gif">
+<img width="300" height="600" src="https://raw.githubusercontent.com/omarfaroke/search_highlight_text/main/example/screenshots/example.gif">
 </p>
