@@ -1,39 +1,117 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+<p >
+  <a href="https://pub.dev/packages/search_highlight_text"><img src="https://img.shields.io/pub/v/search_highlight_text"></a>
+</p>
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Simple Inherited Widget to highlight text in a search result, with custom highlight Color and highlight TextStyle.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- Highlight text in a search result with custom highlight Color and highlight TextStyle.
+- Highlight text in a search result without prasing the search text directly.
+- Parse the search text as a regular expression.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+ SearchTextInheritedWidget(
+  searchText: 'search text',
+  child: SearchHighlightText('text to highlight'),
+ ),
+ 
+ // or
+SearchTextInheritedWidget(
+  // you can use any RegExp here, like RegExp('[1-9]'), RegExp('search text with RegExp', caseSensitive: false), etc.
+  searchRegExp: RegExp('search text with RegExp'), 
+  child: SearchHighlightText('text to highlight'),
+),
 ```
 
-## Additional information
+## Example
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+See full example in [repo](https://github.com/omarfaroke/search_highlight_text/tree/master/example).
+
+```dart
+// search_view.dart
+
+class SearchView extends ConsumerWidget {
+  const SearchView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var controller = ref.watch(searchController);
+
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey[100],
+        appBar: AppBar(
+          title: const Text('Search Movies Example'),
+        ),
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            SearchField(
+              controller: controller,
+            ),
+            Expanded(
+              child: controller.isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SearchTextInheritedWidget(
+                      searchText: controller
+                          .searchText, // <-- Here we pass the search text to the widget tree to be used by the SearchHighlightText widget
+                      child: ListMoviesWidget(
+                        listMovies: controller.movies,
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+  
+```dart
+// movie_card.dart
+
+class MovieCard extends StatelessWidget {
+  const MovieCard({Key? key, required this.movie}) : super(key: key);
+
+  final MovieModel movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: SearchHighlightText( // <-- Here we use the SearchHighlightText widget to highlight the search text (if any) in the movie title
+          movie.title,
+        ),
+        subtitle: Text(movie.year),
+        leading: SizedBox(
+          width: 100,
+          child: Image.network(
+            movie.posterUrl,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.error);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+<p>
+<img width="300" height="600" src="./example/screenshots/example.gif">
+</p>
