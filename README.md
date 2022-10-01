@@ -27,6 +27,15 @@ SearchTextInheritedWidget(
 ),
 ```
 
+you can also use `SearchHighlightText` directly, but you need to provide the `searchText` or `searchRegExp` to it.
+
+```dart
+SearchHighlightText(
+  'text to highlight',
+  searchText: 'search text',
+),
+```
+
 ## Example
 
 See full example in [repo](https://github.com/omarfaroke/search_highlight_text/tree/main/example).
